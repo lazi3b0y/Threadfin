@@ -205,9 +205,9 @@ func parseMetaDataOptimized(channel string) map[string]string {
 // Wrapper to maintain backward compatibility
 func MakeInterfaceFromM3U(byteStream []byte) (allChannels []interface{}, err error) {
 	// For files larger than 10MB, use optimized version
-	if len(byteStream) > 10*1024*1024 {
-		return MakeInterfaceFromM3UOptimized(byteStream)
-	}
+	// if len(byteStream) > 10*1024*1024 {
+	//	return MakeInterfaceFromM3UOptimized(byteStream)
+	// }
 
 	// Use original implementation for smaller files to maintain compatibility
 	return makeInterfaceFromM3UOriginal(byteStream)
