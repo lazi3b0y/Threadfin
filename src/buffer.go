@@ -1116,7 +1116,7 @@ func thirdPartyBuffer(streamID int, playlistID string, useBackup bool, backupNum
 			return
 		}
 
-		ShowInfo(fmt.Sprintf("Checking file: %s", path))
+		showInfo(fmt.Sprintf("Checking file: %s", path))
 		err = checkFile(path)
 		if err != nil {
 			ShowError(err, 1109)
