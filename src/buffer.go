@@ -1020,7 +1020,6 @@ func switchBandwidth(stream *ThisStream) (err error) {
 
 // Buffer with FFMPEG
 func thirdPartyBuffer(streamID int, playlistID string, useBackup bool, backupNumber int) {
-
 	if p, ok := BufferInformation.Load(playlistID); ok {
 		var playlist = p.(Playlist)
 		var debug, path, options, bufferType string
@@ -1062,26 +1061,6 @@ func thirdPartyBuffer(streamID int, playlistID string, useBackup bool, backupNum
 
 		bufferType = strings.ToUpper(playlist.Buffer)
 
-		switch playlist.Buffer {
-
-		case "ffmpeg":
-
-			if Settings.FFmpegForceHttp {
-				url = strings.Replace(url, "https://", "http://", -1)
-				showInfo("Forcing URL to HTTP for FFMPEG: " + url)
-			}
-
-			path = Settings.FFmpegPath
-			options = Settings.FFmpegOptions
-
-		case "vlc":
-			path = Settings.VLCPath
-			options = Settings.VLCOptions
-
-		default:
-			return
-		}
-
 		var addErrorToStream = func(err error) {
 			if !useBackup || (useBackup && backupNumber >= 0 && backupNumber <= 3) {
 				backupNumber = backupNumber + 1
@@ -1103,6 +1082,41 @@ func thirdPartyBuffer(streamID int, playlistID string, useBackup bool, backupNum
 
 		}
 
+		switch playlist.Buffer {
+		case "ffmpeg":
+			if Settings.FFmpegForceHttp {
+				url = strings.Replace(url, "https://", "http://", -1)
+				showInfo("Forcing URL to HTTP for FFMPEG: " + url)
+			}
+
+			options = Settings.FFmpegOptions
+			path = Settings.FFmpegPath
+			showInfo(fmt.Sprintf("Checking file: %s", path))
+			err := checkFile(path)
+			if err != nil {
+				showWarning(2020)
+				ShowError(err, 1109)
+				killClientConnection(streamID, playlistID, false)
+				addErrorToStream(err)
+				return
+			}
+		case "vlc":
+			options = Settings.VLCOptions
+			path = Settings.VLCPath
+			showInfo(fmt.Sprintf("Checking file: %s", path))
+			err := checkFile(path)
+			if err != nil {
+				showWarning(2021)
+				ShowError(err, 1109)
+				killClientConnection(streamID, playlistID, false)
+				addErrorToStream(err)
+				return
+			}
+
+		default:
+			return
+		}
+
 		if err := bufferVFS.RemoveAll(getPlatformPath(tmpFolder)); err != nil {
 			ShowError(err, 1107)
 		}
@@ -1110,15 +1124,6 @@ func thirdPartyBuffer(streamID int, playlistID string, useBackup bool, backupNum
 		err := checkVFSFolder(tmpFolder, bufferVFS)
 		if err != nil {
 			ShowError(err, 1108)
-			killClientConnection(streamID, playlistID, false)
-			addErrorToStream(err)
-			return
-		}
-
-		showInfo(fmt.Sprintf("Checking file: %s", path))
-		err = checkFile(path)
-		if err != nil {
-			ShowError(err, 1109)
 			killClientConnection(streamID, playlistID, false)
 			addErrorToStream(err)
 			return
