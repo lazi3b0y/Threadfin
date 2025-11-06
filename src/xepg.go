@@ -65,7 +65,7 @@ func buildXEPG(background bool) {
 
 	Data.Cache.Images, err = imgcache.New(System.Folder.ImagesCache, fmt.Sprintf("%s://%s/images/", System.ServerProtocol.WEB, System.Domain), Settings.CacheImages)
 	if err != nil {
-		ShowError(err, 0)
+		ShowError(err, 2401)
 	}
 
 	if Settings.EpgSource == "XEPG" {
@@ -269,7 +269,7 @@ func createXEPGMapping() {
 				Data.XMLTV.Files = append(Data.XMLTV.Files, Data.XMLTV.Files[i+1:]...)
 				var errMsg = err.Error()
 				err = errors.New(getProviderParameter(fileID, "xmltv", "name") + ": " + errMsg)
-				ShowError(err, 000)
+				ShowError(err, 2402)
 			}
 
 			// XML Parsen (Provider Datei)
@@ -348,7 +348,7 @@ func createXEPGDatabase() (err error) {
 	Settings = SettingsStruct{}
 	Data.XEPG.Channels, err = loadJSONFileToMap(System.File.XEPG)
 	if err != nil {
-		ShowError(err, 1004)
+		ShowError(err, 2403)
 		return err
 	}
 
@@ -400,7 +400,7 @@ func createXEPGDatabase() (err error) {
 	// Save updated XEPG database
 	err = saveMapToJSONFile(System.File.XEPG, Data.XEPG.Channels)
 	if err != nil {
-		ShowError(err, 000)
+		ShowError(err, 2404)
 		return err
 	}
 
@@ -1404,7 +1404,7 @@ func createDummyProgram(xepgChannel XEPGChannelStruct) (dummyXMLTV XMLTV) {
 		if match, _ := regexp.MatchString(`^\d+$`, dl[0]); match {
 			dummyLength, err = strconv.Atoi(dl[0])
 			if err != nil {
-				ShowError(err, 000)
+				ShowError(err, 2405)
 				// Continue with default value instead of returning
 			}
 		} else {
@@ -1545,7 +1545,7 @@ func getEpisodeNum(program *Program, xmltvProgram *Program, xepgChannel XEPGChan
 			if err == nil {
 				program.EpisodeNum = append(program.EpisodeNum, &EpisodeNum{Value: t.Format("2006-01-02 15:04:05"), System: "original-air-date"})
 			} else {
-				ShowError(err, 0)
+				ShowError(err, 2406)
 			}
 
 		}
@@ -1731,7 +1731,7 @@ func createM3UFile() {
 	showInfo("XEPG:" + fmt.Sprintf("Create M3U file (%s)", System.File.M3U))
 	_, err := buildM3U([]string{})
 	if err != nil {
-		ShowError(err, 000)
+		ShowError(err, 2407)
 	}
 
 	saveMapToJSONFile(System.File.URLS, Data.Cache.StreamingURLS)
@@ -1796,7 +1796,7 @@ func cleanupXEPG() {
 
 	err := saveMapToJSONFile(System.File.XEPG, Data.XEPG.Channels)
 	if err != nil {
-		ShowError(err, 000)
+		ShowError(err, 2408)
 		return
 	}
 
@@ -1867,7 +1867,7 @@ func removeDuplicateChannels() {
 		// Save the cleaned database
 		err := saveMapToJSONFile(System.File.XEPG, Data.XEPG.Channels)
 		if err != nil {
-			ShowError(err, 000)
+			ShowError(err, 2409)
 		}
 	} else {
 		showInfo("XEPG:No duplicate channels found")

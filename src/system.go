@@ -99,7 +99,7 @@ func updateUrlsJson() {
 	}
 	err := buildDatabaseDVR()
 	if err != nil {
-		ShowError(err, 0)
+		ShowError(err, 2001)
 		return
 	}
 
@@ -151,7 +151,7 @@ func loadSettings() (settings SettingsStruct, err error) {
 	defaults["ssdp"] = true
 	defaults["storeBufferInRAM"] = true
 	defaults["forceHttps"] = false
-    defaults["excludeStreamHttps"] = false
+	defaults["excludeStreamHttps"] = false
 	defaults["httpsPort"] = 443
 	defaults["httpsThreadfinDomain"] = ""
 	defaults["httpThreadfinDomain"] = ""

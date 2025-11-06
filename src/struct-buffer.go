@@ -155,7 +155,7 @@ ffmpegOut, _ := run.StderrPipe()
 
 		ffmpegOut, err = run.StdoutPipe()
 		if err != nil {
-			ShowError(err, 0)
+			ShowError(err, 1901)
 			return
 		}
 
@@ -179,7 +179,7 @@ ffmpegOut, _ := run.StderrPipe()
 
 		if err != nil && err != io.EOF {
 
-			ShowError(err, 0)
+			ShowError(err, 1902)
 			addErrorToStream(err)
 			return
 
@@ -203,7 +203,7 @@ ffmpegOut, _ := run.StderrPipe()
 
 				if _, err := bufferFile.Write(buffer[:]); err != nil {
 
-					ShowError(err, 0)
+					ShowError(err, 1903)
 					addErrorToStream(err)
 					run.Process.Kill()
 					return
@@ -232,7 +232,7 @@ ffmpegOut, _ := run.StderrPipe()
 
 					err = os.RemoveAll(stream.Folder)
 					if err != nil {
-						ShowError(err, 4005)
+						ShowError(err, 1904)
 					}
 
 					return

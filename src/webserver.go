@@ -55,7 +55,7 @@ func StartWebserver() (err error) {
 	systemMutex.Unlock()
 
 	if err = http.ListenAndServe(ipAddress+":"+port, nil); err != nil {
-		ShowError(err, 1001)
+		ShowError(err, 2301)
 		return
 	}
 
@@ -89,7 +89,7 @@ func Index(w http.ResponseWriter, r *http.Request) {
 			systemMutex.Unlock()
 			_, err := basicAuth(r, "authentication.pms")
 			if err != nil {
-				ShowError(err, 000)
+				ShowError(err, 2302)
 				httpStatusError(w, r, 403)
 				return
 			}
@@ -121,7 +121,7 @@ func Stream(w http.ResponseWriter, r *http.Request) {
 	var path = strings.Replace(r.RequestURI, "/stream/", "", 1)
 	streamInfo, err := getStreamInfo(path)
 	if err != nil {
-		ShowError(err, 1203)
+		ShowError(err, 2303)
 		httpStatusError(w, r, 404)
 		return
 	}
@@ -134,11 +134,11 @@ func Stream(w http.ResponseWriter, r *http.Request) {
 
 	systemMutex.Lock()
 	forceHttps := Settings.ForceHttps
-    noStreamHttps := Settings.ExcludeStreamHttps
+	noStreamHttps := Settings.ExcludeStreamHttps
 	systemMutex.Unlock()
 
 	// Dont Change Source M3Us to use HTTPs when forceHttps set and Exclude Streams from https
-    if forceHttps && noStreamHttps == false {
+	if forceHttps && noStreamHttps == false {
 		u, err := url.Parse(streamInfo.URL)
 		if err == nil {
 			u.Scheme = "https"
@@ -154,13 +154,13 @@ func Stream(w http.ResponseWriter, r *http.Request) {
 		client := &http.Client{}
 		req, err := http.NewRequest("HEAD", streamInfo.URL, nil)
 		if err != nil {
-			ShowError(err, 1501)
+			ShowError(err, 2304)
 			httpStatusError(w, r, 405)
 			return
 		}
 		resp, err := client.Do(req)
 		if err != nil {
-			ShowError(err, 1502)
+			ShowError(err, 2305)
 			httpStatusError(w, r, 405)
 			return
 		}
@@ -196,7 +196,7 @@ func Stream(w http.ResponseWriter, r *http.Request) {
 	case "threadfin":
 		if strings.Index(streamInfo.URL, "rtsp://") != -1 || strings.Index(streamInfo.URL, "rtp://") != -1 {
 			err = errors.New("RTSP and RTP streams are not supported")
-			ShowError(err, 2004)
+			ShowError(err, 2306)
 			showInfo("Streaming URL:" + streamInfo.URL)
 			http.Redirect(w, r, streamInfo.URL, 302)
 			return
@@ -252,7 +252,7 @@ func Threadfin(w http.ResponseWriter, r *http.Request) {
 
 		err = urlAuth(r, requestType)
 		if err != nil {
-			ShowError(err, 000)
+			ShowError(err, 2307)
 			httpStatusError(w, r, 403)
 			return
 		}
@@ -276,7 +276,7 @@ func Threadfin(w http.ResponseWriter, r *http.Request) {
 
 		err = urlAuth(r, requestType)
 		if err != nil {
-			ShowError(err, 000)
+			ShowError(err, 2308)
 			httpStatusError(w, r, 403)
 			return
 		}
@@ -313,7 +313,7 @@ func Threadfin(w http.ResponseWriter, r *http.Request) {
 
 		content, err = buildM3U(groups)
 		if err != nil {
-			ShowError(err, 000)
+			ShowError(err, 2309)
 		}
 
 	}
@@ -394,7 +394,7 @@ func WS(w http.ResponseWriter, r *http.Request) {
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		ShowError(err, 0)
+		ShowError(err, 2310)
 		http.Error(w, "Could not open websocket connection", http.StatusBadRequest)
 		return
 	}
@@ -440,7 +440,7 @@ func WS(w http.ResponseWriter, r *http.Request) {
 					request.Cmd = "-"
 
 					if err = conn.WriteJSON(response); err != nil {
-						ShowError(err, 1102)
+						ShowError(err, 2311)
 					}
 
 					systemMutex.Unlock()
@@ -463,7 +463,7 @@ func WS(w http.ResponseWriter, r *http.Request) {
 		case "updateLog":
 			response = setDefaultResponseData(response, false)
 			if err = conn.WriteJSON(response); err != nil {
-				ShowError(err, 1022)
+				ShowError(err, 2312)
 			} else {
 				return
 				break
@@ -580,7 +580,7 @@ func WS(w http.ResponseWriter, r *http.Request) {
 			if len(request.Base64) > 0 {
 				newWebURL, err := ThreadfinRestoreFromWeb(request.Base64)
 				if err != nil {
-					ShowError(err, 000)
+					ShowError(err, 2313)
 					response.Alert = err.Error()
 				}
 
@@ -600,7 +600,7 @@ func WS(w http.ResponseWriter, r *http.Request) {
 				response.LogoURL, err = uploadLogo(request.Base64, request.Filename)
 				if err == nil {
 					if err = conn.WriteJSON(response); err != nil {
-						ShowError(err, 1022)
+						ShowError(err, 2314)
 					} else {
 						return
 					}
@@ -639,7 +639,7 @@ func WS(w http.ResponseWriter, r *http.Request) {
 		}
 
 		if err = conn.WriteJSON(response); err != nil {
-			ShowError(err, 1022)
+			ShowError(err, 2315)
 		} else {
 			break
 		}
@@ -673,7 +673,7 @@ func Web(w http.ResponseWriter, r *http.Request) {
 		lang, err = loadJSONFileToMap(fmt.Sprintf("html/lang/%s.json", Settings.Language))
 		systemMutex.Unlock()
 		if err != nil {
-			ShowError(err, 000)
+			ShowError(err, 2316)
 		}
 	} else {
 		systemMutex.Unlock()
@@ -687,7 +687,7 @@ func Web(w http.ResponseWriter, r *http.Request) {
 
 	err = json.Unmarshal([]byte(mapToJSON(lang)), &language)
 	if err != nil {
-		ShowError(err, 000)
+		ShowError(err, 2317)
 		return
 	}
 
@@ -774,7 +774,7 @@ func Web(w http.ResponseWriter, r *http.Request) {
 
 			allUserData, err := authentication.GetAllUserData()
 			if err != nil {
-				ShowError(err, 000)
+				ShowError(err, 2318)
 				httpStatusError(w, r, 403)
 				return
 			}

@@ -326,7 +326,7 @@ func readStringFromFile(file string) (str string, err error) {
 
 	content, err = os.ReadFile(filename)
 	if err != nil {
-		ShowError(err, 0)
+		ShowError(err, 2101)
 		return
 	}
 
@@ -407,7 +407,7 @@ func parseTemplate(content string, tmpMap map[string]interface{}) (result string
 	var tpl bytes.Buffer
 
 	if err := t.Execute(&tpl, tmpMap); err != nil {
-		ShowError(err, 0)
+		ShowError(err, 2102)
 	}
 	result = tpl.String()
 

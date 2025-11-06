@@ -57,7 +57,7 @@ func getCapability() (xmlContent []byte, err error) {
 
 	output, err := xml.MarshalIndent(capability, " ", "  ")
 	if err != nil {
-		ShowError(err, 1003)
+		ShowError(err, 1401)
 	}
 
 	buffer.Write([]byte(xml.Header))
@@ -126,7 +126,7 @@ func getLineup() (jsonContent []byte, err error) {
 				stream.GuideNumber = fmt.Sprintf("%d", i+1000)
 				guideNumber, err := getGuideNumberPMS(stream.GuideName)
 				if err != nil {
-					ShowError(err, 0)
+					ShowError(err, 1402)
 				}
 
 				stream.GuideNumber = guideNumber
@@ -140,7 +140,7 @@ func getLineup() (jsonContent []byte, err error) {
 			if err == nil {
 				lineup = append(lineup, stream)
 			} else {
-				ShowError(err, 1202)
+				ShowError(err, 1403)
 			}
 
 		}
@@ -163,7 +163,7 @@ func getLineup() (jsonContent []byte, err error) {
 				if err == nil {
 					lineup = append(lineup, stream)
 				} else {
-					ShowError(err, 1202)
+					ShowError(err, 1403)
 				}
 
 			}

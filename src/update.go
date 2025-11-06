@@ -49,7 +49,7 @@ func BinaryUpdate() (err error) {
 
 		resp, err := http.Get(releaseInfo)
 		if err != nil {
-			ShowError(err, 6003)
+			ShowError(err, 2201)
 			return nil
 		}
 
@@ -116,7 +116,7 @@ func BinaryUpdate() (err error) {
 		if len(updater.Response.Reason) > 0 {
 
 			err = fmt.Errorf(fmt.Sprintf("Update Server: %s", updater.Response.Reason))
-			ShowError(err, 6002)
+			ShowError(err, 2202)
 
 			return nil
 		}
@@ -164,7 +164,7 @@ func BinaryUpdate() (err error) {
 
 				err = up2date.DoUpdate(fileType, updater.Response.Filename)
 				if err != nil {
-					ShowError(err, 6002)
+					ShowError(err, 2203)
 				}
 
 			}

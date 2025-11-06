@@ -26,7 +26,7 @@ func ThreadfinAutoBackup() (err error) {
 
 	err = checkFolder(System.Folder.Backup)
 	if err != nil {
-		ShowError(err, 1070)
+		ShowError(err, 1001)
 		return
 	}
 
@@ -117,7 +117,7 @@ func ThreadfinBackup() (archiv string, err error) {
 
 	err = zipFiles(sourceFiles, target)
 	if err != nil {
-		ShowError(err, 0)
+		ShowError(err, 1002)
 		return
 	}
 
@@ -144,7 +144,7 @@ func ThreadfinRestore(archive string) (newWebURL string, err error) {
 	// Neue Config laden um den Port und die Version zu überprüfen
 	newConfig, err := loadJSONFileToMap(tmpRestore + "settings.json")
 	if err != nil {
-		ShowError(err, 0)
+		ShowError(err, 1003)
 		return
 	}
 
@@ -163,7 +163,7 @@ func ThreadfinRestore(archive string) (newWebURL string, err error) {
 	// Neue Config laden um den Port und die Version zu überprüfen
 	newConfig, err = loadJSONFileToMap(System.Folder.Config + "settings.json")
 	if err != nil {
-		ShowError(err, 0)
+		ShowError(err, 1004)
 		return
 	}
 
@@ -173,20 +173,20 @@ func ThreadfinRestore(archive string) (newWebURL string, err error) {
 	if newPort == oldPort {
 
 		if err != nil {
-			ShowError(err, 0)
+			ShowError(err, 1005)
 		}
 
 		loadSettings()
 
 		err := Init()
 		if err != nil {
-			ShowError(err, 0)
+			ShowError(err, 1006)
 			return "", err
 		}
 
 		err = StartSystem(true)
 		if err != nil {
-			ShowError(err, 0)
+			ShowError(err, 1007)
 			return "", err
 		}
 

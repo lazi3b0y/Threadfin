@@ -36,7 +36,7 @@ func maintenance() {
 					// Backup erstellen
 					err := ThreadfinAutoBackup()
 					if err != nil {
-						ShowError(err, 000)
+						ShowError(err, 1601)
 					}
 
 					// Playlist und XMLTV Dateien aktualisieren
@@ -50,7 +50,7 @@ func maintenance() {
 					// Datenbank für DVR erstellen
 					err = buildDatabaseDVR()
 					if err != nil {
-						ShowError(err, 000)
+						ShowError(err, 1602)
 					}
 
 					systemMutex.Lock()

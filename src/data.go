@@ -49,7 +49,7 @@ func updateServerSettings(request RequestStruct) (settings SettingsStruct, err e
 
 					_, err := time.Parse("1504", v.(string))
 					if err != nil {
-						ShowError(err, 1012)
+						ShowError(err, 1301)
 						return Settings, err
 					}
 
@@ -209,7 +209,7 @@ func updateServerSettings(request RequestStruct) (settings SettingsStruct, err e
 
 				Data.Cache.Images, err = imgcache.New(System.Folder.ImagesCache, fmt.Sprintf("%s://%s/images/", System.ServerProtocol.WEB, System.Domain), Settings.CacheImages)
 				if err != nil {
-					ShowError(err, 0)
+					ShowError(err, 1302)
 				}
 
 				switch Settings.CacheImages {
@@ -493,7 +493,6 @@ func saveFilter(request RequestStruct) (settings SettingsStruct, err error) {
 
 	settings = Settings
 
-
 	err = buildDatabaseDVR()
 	if err != nil {
 		return
@@ -513,7 +512,7 @@ func saveXEpgMapping(request RequestStruct) (err error) {
 
 	Data.Cache.Images, err = imgcache.New(System.Folder.ImagesCache, fmt.Sprintf("%s://%s/images/", System.ServerProtocol.WEB, System.Domain), Settings.CacheImages)
 	if err != nil {
-		ShowError(err, 0)
+		ShowError(err, 1303)
 	}
 
 	err = json.Unmarshal([]byte(mapToJSON(request.EpgMapping)), &tmp)
@@ -700,14 +699,14 @@ func saveWizard(request RequestStruct) (nextStep int, err error) {
 				err = getProviderData(key, dataID)
 
 				if err != nil {
-					ShowError(err, 000)
+					ShowError(err, 1304)
 					delete(filesMap, dataID)
 					return
 				}
 
 				err = buildDatabaseDVR()
 				if err != nil {
-					ShowError(err, 000)
+					ShowError(err, 1305)
 					delete(filesMap, dataID)
 					return
 				}
@@ -724,7 +723,7 @@ func saveWizard(request RequestStruct) (nextStep int, err error) {
 
 				if err != nil {
 
-					ShowError(err, 000)
+					ShowError(err, 1306)
 					delete(filesMap, dataID)
 					return
 
@@ -841,9 +840,9 @@ func buildDatabaseDVR() (err error) {
 			}
 
 			if err != nil {
-				ShowError(err, 1005)
+				ShowError(err, 1307)
 				err = errors.New(playlistName + ": Local copy of the file no longer exists")
-				ShowError(err, 0)
+				ShowError(err, 1308)
 				playlistFile = append(playlistFile[:n], playlistFile[n+1:]...)
 			}
 

@@ -134,7 +134,7 @@ func main() {
 
 		err := src.Init()
 		if err != nil {
-			src.ShowError(err, 0)
+			src.ShowError(err, 1)
 			os.Exit(0)
 		}
 
@@ -177,13 +177,13 @@ func main() {
 
 		err := src.Init()
 		if err != nil {
-			src.ShowError(err, 0)
+			src.ShowError(err, 2)
 			os.Exit(0)
 		}
 
 		err = src.ThreadfinRestoreFromCLI(*restore)
 		if err != nil {
-			src.ShowError(err, 0)
+			src.ShowError(err, 3)
 		}
 
 		os.Exit(0)
@@ -191,30 +191,30 @@ func main() {
 
 	err := src.Init()
 	if err != nil {
-		src.ShowError(err, 0)
+		src.ShowError(err, 4)
 		os.Exit(0)
 	}
 
 	err = src.BinaryUpdate()
 	if err != nil {
-		src.ShowError(err, 0)
+		src.ShowError(err, 5)
 	}
 
 	err = src.StartSystem(false)
 	if err != nil {
-		src.ShowError(err, 0)
+		src.ShowError(err, 6)
 		os.Exit(0)
 	}
 
 	err = src.InitMaintenance()
 	if err != nil {
-		src.ShowError(err, 0)
+		src.ShowError(err, 7)
 		os.Exit(0)
 	}
 
 	err = src.StartWebserver()
 	if err != nil {
-		src.ShowError(err, 0)
+		src.ShowError(err, 8)
 		os.Exit(0)
 	}
 

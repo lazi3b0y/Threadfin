@@ -102,7 +102,7 @@ func Init() (err error) {
 	// System Ordner erstellen
 	err = createSystemFolders()
 	if err != nil {
-		ShowError(err, 1070)
+		ShowError(err, 1201)
 		return
 	}
 
@@ -123,7 +123,7 @@ func Init() (err error) {
 
 	err = resolveHostIP()
 	if err != nil {
-		ShowError(err, 1002)
+		ShowError(err, 1202)
 	}
 
 	// Menü für das Webinterface
@@ -151,7 +151,7 @@ func Init() (err error) {
 	// Systemdateien erstellen (Falls nicht vorhanden)
 	err = createSystemFiles()
 	if err != nil {
-		ShowError(err, 1071)
+		ShowError(err, 1203)
 		return
 	}
 
@@ -165,7 +165,7 @@ func Init() (err error) {
 
 	_, err = loadSettings()
 	if err != nil {
-		ShowError(err, 0)
+		ShowError(err, 1204)
 		return
 	}
 
@@ -258,7 +258,7 @@ func StartSystem(updateProviderFiles bool) (err error) {
 
 		err = ThreadfinAutoBackup()
 		if err != nil {
-			ShowError(err, 1090)
+			ShowError(err, 1205)
 		}
 
 		getProviderData("m3u", "")
@@ -272,7 +272,7 @@ func StartSystem(updateProviderFiles bool) (err error) {
 
 	err = buildDatabaseDVR()
 	if err != nil {
-		ShowError(err, 0)
+		ShowError(err, 1206)
 		return
 	}
 
