@@ -1022,7 +1022,7 @@ func switchBandwidth(stream *ThisStream) (err error) {
 func thirdPartyBuffer(streamID int, playlistID string, useBackup bool, backupNumber int) {
 
 	if p, ok := BufferInformation.Load(playlistID); ok {
-
+		showInfo(Settings)
 		var playlist = p.(Playlist)
 		var debug, path, options, bufferType string
 		var tmpSegment = 1
